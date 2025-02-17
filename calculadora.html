@@ -1,0 +1,56 @@
+<script>
+    document.getElementById('parcelaForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        let produtoSelect = document.getElementById('produtoSelect').value;
+        let valorEntrada = parseFloat(document.getElementById('valorEntrada').value) || 0;
+        let quantidadeParcelas = parseInt(document.getElementById('quantidadeParcelas').value) || 1;
+        let isD4UChecked = document.getElementById('d4uCheckbox').checked;
+        
+        let produtos = {
+            "Programa PASS": 2500,
+            "Programa PASS Advanced": 3500,
+            "Construção de Material": 650,
+            "Construção de Material Advanced": 1200,
+            "Construção de material advanced D4U": 1140,
+            "Construção Resume Eb2niw": 700,
+            "Treinamento de entrevista": 450,
+            "Treinamento de entrevista advanced": 550,
+            "Mock interview": 120,
+            "Consultoria informativa Carreira USA": 400,
+            "Consultoria Informativa Thais": 600,
+            "Sessão bússola": 300,
+            "Negociação de salário": 100,
+            "3 sessões Fui contratado e agora?": 390,
+            "1 sessão Fui contratado e agora?": 150,
+            "Combo construção de material + sessão bússola": 950,
+            "Combo construção de material advanced + sessão bússola": 1500,
+            "Combo construção de material + sessão bússola + treinamento de entrevista": 1400,
+            "Combo construção de material advanced + sessão bússola + treinamento de entrevista advanced": 2050
+        };
+
+        // Verifica se o produto está na lista
+        if (!produtos[produtoSelect]) {
+            document.getElementById('resultado').innerHTML = "Selecione um produto válido.";
+            return;
+        }
+
+        let valorProduto = produtos[produtoSelect];
+
+        // Aplicar desconto se checkbox estiver marcado
+        if (isD4UChecked) {
+            valorProduto *= 0.95;
+        }
+
+        // Verifica se o valor de entrada é maior que o valor do produto
+        if (valorEntrada > valorProduto) {
+            document.getElementById('resultado').innerHTML = "O valor de entrada não pode ser maior que o valor total do produto.";
+            return;
+        }
+
+        let valorTotal = valorProduto - valorEntrada;
+        let valorParcela = (valorTotal / quantidadeParcelas).toFixed(2);
+
+        document.getElementById('resultado').innerHTML = `Valor de Entrada: R$ ${valorEntrada.toFixed(2)}<br>Valor de cada parcela: R$ ${valorParcela}`;
+    });
+</script>
